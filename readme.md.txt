@@ -1,27 +1,22 @@
-# Project Title
-
-Simple overview of use/purpose.
+# Python code game cont
 
 ## Description
 
-An in-depth paragraph about your project and overview of use.
+Sharpshooter continued... shoot bullets and kill the enemies... dont let the enemies kill you
 
 ## Getting Started
 
 ### Dependencies
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Python 3.x, Pygame, etc.
+* pygame
 
 ### Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+* You can download the code from github
 
 ### Executing program
 
-* How to run the program
-* Step-by-step bullets
+* Download any application that can run the python code. download the github code... copy and paste the code into the application and run
 ```
 code blocks for commands
 ```
@@ -35,22 +30,18 @@ command to run if program contains helper info
 
 ## Authors
 
-Contributors names and contact info
+Guy from youtube and Cozor
 
-ex. Chris Cozort  
-ex. ccozort@bcp.org
+
 
 ## Version History
 
-* 0.2
-    * Various bug fixes and optimizations
-    * See [commit change]() or See [release history]()
 * 0.1
-    * Initial Release
+   * basic parts of the game added
 
 ## License
 
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+MIT
 
 ## Acknowledgments
 
