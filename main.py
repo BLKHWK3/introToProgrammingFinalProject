@@ -23,7 +23,7 @@ class Square:
         self.rect = pygame.Rect(x,y,width,height)
         self.color = color
         self.direction = 'E'
-        self.speed = 5 #changes both speed of the enemies and self
+        self.speed = 3 #changes both speed of the enemies and self
 
     def move(self): 
         if self.direction == 'E': 
