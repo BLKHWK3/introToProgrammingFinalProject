@@ -5,6 +5,8 @@ import pygame, math, random
 
 pygame.init()
 
+score = 0
+
 #Initialize variables:
 clock = pygame.time.Clock() #defins FPS
 screen_width = 1920
@@ -15,6 +17,11 @@ BLACK = (0,0,0)
 RED = (255,0,0)
 GREEN = (0,255,0)
 BLUE = (0,0,255)
+
+#FONT
+font = pygame.font.SysFont("comicsans", 30, True)
+#SCORING
+text = font.render("Score: " + str(score), 1, (0,0,0))
 
 #making square
 
@@ -50,6 +57,7 @@ class Square:
     def collided(self, other_rect): 
         #Return True if self collided with other_rect
         return self.rect.colliderect(other_rect)
+        score+=1
 
     def draw(self, surface): #draws the square
         pygame.draw.rect(surface, self.color, self.rect)
