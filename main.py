@@ -2,15 +2,14 @@
 
 #sources: https://github.com/nealholt/python_programming_curricula/tree/master/CS1/0550_galaga
 import pygame, math, random
+import sys
 
 pygame.init()
 
-score = 0
-
 #Initialize variables:
 clock = pygame.time.Clock() #defins FPS
-screen_width = 1920
-screen_height = 1080
+screen_width = 800
+screen_height = 800
 surface = pygame.display.set_mode((screen_width,screen_height))
 WHITE = (255,255,255)
 BLACK = (0,0,0)
@@ -18,19 +17,35 @@ RED = (255,0,0)
 GREEN = (0,255,0)
 BLUE = (0,0,255)
 
-#FONT
-font = pygame.font.SysFont("comicsans", 30, True)
-#SCORING
-text = font.render("Score: " + str(score), 1, (0,0,0))
-
 #making square
 
-class Square:
+class Player:
     def __init__(self, color, x, y, width, height, speed): #getting the dimensions of the squares and their speed at which they go down at
         self.rect = pygame.Rect(x,y,width,height)
         self.color = color
         self.direction = 'E'
         self.speed = 3 #changes both speed of the enemies and self
+        self.current_health = 200
+        self.maximum_health = 1000
+        self.health_bar_length = 400
+        self.health_ratio = self.maximum_health / self.health_bar_length
+
+    def get_damage(self,amount): #tries to get the damage taken by the player
+        if self.current_health > 0:
+            self.current_health -= amount
+        if self.current_health<= 0:
+            self.current_health = 0
+
+    def get_health(self,amount): #gets the amt of health the player has
+        if self.current_health < self.maximum_health:
+            self.current_health += amount
+        if self.current_health >= self.maximum_health:
+            self.current_health = self.maximum_health
+
+    def basic_health(self): # draws the healthbar
+        pygame.draw.rect(surface, (255,0,0), (10,10,self.current_health/self.health_ratio,25))
+        pygame.draw.rect(surface, (255,255,255),(10,10,self.health_bar_length,25),4)
+
 
     def move(self): 
         if self.direction == 'E': 
@@ -52,18 +67,20 @@ class Square:
         if direction == 'S':
             self.rect.y = self.rect.y+self.speed
 
+# Group sprites
+
+
 #COLLISION TIME BAYBE
 
     def collided(self, other_rect): 
         #Return True if self collided with other_rect
         return self.rect.colliderect(other_rect)
-        score+=1
 
     def draw(self, surface): #draws the square
         pygame.draw.rect(surface, self.color, self.rect)
 
 #bullet class
-class Bullet(Square):
+class Bullet(Player):
     def __init__(self, color, x, y, width, height, speed, targetx,targety): #sets the bullet dimensions, color 
         super().__init__(color, x, y, width, height, speed)
         angle = math.atan2(targety-y, targetx-x) 
@@ -79,10 +96,17 @@ class Bullet(Square):
         self.y = self.y + self.dy
         self.rect.x = int(self.x)
         self.rect.y = int(self.y)
+#create more methods that can add or subtract health
+
+    def update(self):
+        self.basic_health()
+
+    
+
 
 
 #Build a square
-sq = Square(GREEN,200,200,100,100, 10)
+sq = Player(GREEN,200,200,100,100, 10)
 
 bullets = [] # turns bull and ene to lists
 enemies = []
@@ -128,7 +152,7 @@ while not done:
     #spawn enemies top to bottom 
     if random.randint(1,30) == 15: 
         x = random.randint(0,screen_width-40)
-        e = Square(BLUE, x,-40, 40,40, 10)
+        e = Player(BLUE, x,-40, 40,40, 10)
         e.direction = 'S'
         enemies.append(e)
     #Checks for collisions
@@ -156,4 +180,16 @@ while not done:
     pygame.display.flip()
     clock.tick(60) #60 FPS
 pygame.quit()
-exit()
+
+if event.type == pygame.KEYDOWN:
+    if event.key == pygame.K_UP:
+        Player.sprite.get_health(200)
+if event.type == pygame.KEYDOWN:
+    if event.key == pygame.K_UP:
+        Player.sprite.get_damage(200)
+    
+player = pygame.sprite.GroupSingle(Player())
+pygame.display.update()
+player.update()
+player.draw(surface)
+
