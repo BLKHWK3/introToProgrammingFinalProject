@@ -17,6 +17,10 @@ RED = (255,0,0)
 GREEN = (0,255,0)
 BLUE = (0,0,255)
 
+def basic_health(self): # draws the healthbar
+        pygame.draw.rect(surface, (255,0,0), (10,10,self.current_health/self.health_ratio,25))
+        pygame.draw.rect(surface, (255,255,255),(10,10,self.health_bar_length,25),4)
+
 #making square
 
 class Player:
@@ -42,9 +46,7 @@ class Player:
         if self.current_health >= self.maximum_health:
             self.current_health = self.maximum_health
 
-    def basic_health(self): # draws the healthbar
-        pygame.draw.rect(surface, (255,0,0), (10,10,self.current_health/self.health_ratio,25))
-        pygame.draw.rect(surface, (255,255,255),(10,10,self.health_bar_length,25),4)
+    
 
 
     def move(self): 
@@ -66,8 +68,6 @@ class Player:
             self.rect.y = self.rect.y-self.speed
         if direction == 'S':
             self.rect.y = self.rect.y+self.speed
-
-# Group sprites
 
 
 #COLLISION TIME BAYBE
@@ -97,9 +97,14 @@ class Bullet(Player):
         self.rect.x = int(self.x)
         self.rect.y = int(self.y)
 #create more methods that can add or subtract health
+#SPRITE GROUPS
+enemy_bullet_group = pygame.sprite.Group()
 
-    def update(self):
+def update(self):
         self.basic_health()
+        enemy_bullet_group.update()
+        enemy_bullet_group.draw(screen_width,screen_height)
+
 
     
 
